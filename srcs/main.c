@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 09:53:29 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/06 20:44:52 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/07 20:03:46 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,20 @@ DIR		*get_dir(char *path)
 	return (ret);
 }
 
-void	print_contents(DIR *directory, t_options ops)
-{
-	struct dirent	*dp;
-	t_dirlist		*list;
-
-	while ((dp = readdir(directory)) != NULL)
-		if (dp->d_name[0] != '.' || ops.a)
-			write(1, ft_strjoin(dp->d_name, "\n"), ft_strlen(dp->d_name) + 1);
-}
-
 int		main(int argc, char **argv)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
 	t_options		*ops;
+	t_dirlist		*list;
 
 	if (argc > 0 && argc < 4)
 	{
 		ops = (argc < 3 ? init_options() : get_options(argv[2]));
 		dirp = (argc == 1 ? get_dir(".") : get_dir(argv[1]));
-		print_contents(dirp, *ops);
+		list = scan_directory(dirp, *ops);
+		sort_list(&list, &ft_strcmp);
+		print_list(list, *ops);
 		closedir((DIR *)dirp);
 	}
 	else

@@ -6,15 +6,18 @@
 #    By: sescolas <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/06 12:39:43 by sescolas          #+#    #+#              #
-#    Updated: 2017/03/06 19:57:52 by sescolas         ###   ########.fr        #
+#    Updated: 2017/03/07 19:53:06 by sescolas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
 SRCS = \
-	   srcs/main.c \
-	   srcs/options.c
+	   srcs/main.c		\
+	   srcs/options.c	\
+	   srcs/scandir.c	\
+	   srcs/list.c		\
+	   srcs/print.c
 
 OBJS = $(subst srcs/,,$(SRCS:.c=.o))
 
