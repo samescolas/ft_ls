@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 08:25:35 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/07 19:39:14 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/09 09:01:51 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,7 @@ void		swap_nodes(t_dirlist **list, t_dirlist *n1, t_dirlist *n2)
 {
 	t_dirlist	*tmp1;
 	t_dirlist	*tmp2;
-/*
-	write(1, "swapping ", 9);
-	write(1, n1->dir->d_name, ft_strlen(n1->dir->d_name));
-	write(1, " and ", 5);
-	write(1, n2->dir->d_name, ft_strlen(n2->dir->d_name));
-	write(1, "\n", 1);
-*/
+	
 	tmp1 = *list;
 	tmp2 = n2->next;
 	if (tmp1 == n1)
@@ -91,12 +85,12 @@ void		swap_nodes(t_dirlist **list, t_dirlist *n1, t_dirlist *n2)
 	n1->next = tmp2;	
 }
 
-void		sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *))
+void		sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_options op)
 {
 	t_dirlist	*min;
 	t_dirlist	*node;
 	t_dirlist	*tmp;
-	t_dirlist	*tmp2;
+	int			cmp;
 
 	node = *list;
 	while (node)
@@ -105,7 +99,9 @@ void		sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *))
 		min = node;
 		while (tmp)
 		{
-			if (f_cmp((const char *)tmp->dir->d_name, (const char *)min->dir->d_name) < 0)
+			cmp = f_cmp((const char *)tmp->dir->d_name, (const char *)min->dir->d_name);
+			cmp = (op.r ? cmp * -1 : cmp);
+			if (cmp < 0)	
 				min = tmp;
 			tmp = tmp->next;
 		}
