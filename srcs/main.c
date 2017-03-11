@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 09:53:29 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/07 20:03:46 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/09 09:23:16 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		main(int argc, char **argv)
 		ops = (argc < 3 ? init_options() : get_options(argv[2]));
 		dirp = (argc == 1 ? get_dir(".") : get_dir(argv[1]));
 		list = scan_directory(dirp, *ops);
-		sort_list(&list, &ft_strcmp);
+		sort_list(&list, &cmp_time_modified, *ops);
 		print_list(list, *ops);
 		closedir((DIR *)dirp);
 	}

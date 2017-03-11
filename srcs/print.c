@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 19:47:13 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/07 20:00:38 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/09 09:21:43 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,18 @@ void	print_list(t_dirlist *list, t_options ops)
 	}
 }
 
+void	print_file_mode(struct stat f_stat)
+{
+	write(1, (S_ISDIR(f_stat.st_mode)) ? "d" : "_", 1);
+}
+
 void	print_file_permissions(char *filename)
 {
 	struct stat f_stat;
 
 	if (stat(filename, &f_stat) < 0)
 		return;
-	write(1, (S_ISDIR(f_stat.st_mode)) ? "d" : "_", 1);
+	print_file_mode(f_stat);
 	write(1, (f_stat.st_mode & S_IRUSR) ? "r" : "_", 1);
 	write(1, (f_stat.st_mode & S_IWUSR) ? "w" : "_", 1);
 	write(1, (f_stat.st_mode & S_IXUSR) ? "x" : "_", 1);
