@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 10:24:58 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/07 20:00:52 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/09 09:22:17 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ t_dirlist		*pop_list(t_dirlist **list);
 t_dirlist		*scan_directory(DIR *dir, t_options ops);
 void			push_list(t_dirlist **list, t_dirlist *node);
 void			append_list(t_dirlist **list, t_dirlist *node);
-void			sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *));
+void			sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_options op);
 void			print_list(t_dirlist *list, t_options ops);
 void			print_file_permissions(char *filename);
+int		cmp_time_modified(const char *fp1, const char *fp2);
+
 
 #endif
