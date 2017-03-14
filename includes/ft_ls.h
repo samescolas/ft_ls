@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 10:24:58 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/09 09:22:17 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/13 17:31:12 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <pwd.h>
+#include <grp.h>
 #include "../libft/libft.h"
 
 typedef enum 
@@ -50,9 +52,11 @@ t_dirlist		*scan_directory(DIR *dir, t_options ops);
 void			push_list(t_dirlist **list, t_dirlist *node);
 void			append_list(t_dirlist **list, t_dirlist *node);
 void			sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_options op);
-void			print_list(t_dirlist *list, t_options ops);
+void			print_list(t_dirlist *list, char *path, t_options ops);
 void			print_file_permissions(char *filename);
-int		cmp_time_modified(const char *fp1, const char *fp2);
+int				cmp_time_modified(const char *fp1, const char *fp2);
+DIR				*get_dir(char *path);
+int				is_dir(char *path);
 
 
 #endif
