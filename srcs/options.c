@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:27:16 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/06 12:32:02 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/13 14:06:33 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,9 @@ t_options	*get_options(char *options)
 {
 	t_options	*ret;
 
+	if (!*options || *options++ != '-')
+		return ((void *)0);
 	ret = init_options();
-	if (*options++ != '-')
-	{
-		write(2, "option ", 7);
-		write(2, options - 1, ft_strlen(options - 1));
-		write(1, " not recognized\n", 16);
-		exit(1);
-	}
 	while (*options)
 	{
 		if (*options == 'R')
@@ -61,4 +56,3 @@ t_options	*get_options(char *options)
 	}
 	return (ret);
 }
-

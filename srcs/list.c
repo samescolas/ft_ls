@@ -6,13 +6,13 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 08:25:35 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/09 09:01:51 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/13 11:36:12 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_dirlist		*create_list_item(struct dirent *p_dir)
+t_dirlist	*create_list_item(struct dirent *p_dir)
 {
 	t_dirlist	*ret;
 
@@ -54,7 +54,7 @@ void		push_list(t_dirlist **list, t_dirlist *node)
 t_dirlist	*pop_list(t_dirlist **list)
 {
 	t_dirlist	*tmp;
-	
+
 	if (!*list)
 		return ((void *)0);
 	tmp = *list;
@@ -66,7 +66,7 @@ void		swap_nodes(t_dirlist **list, t_dirlist *n1, t_dirlist *n2)
 {
 	t_dirlist	*tmp1;
 	t_dirlist	*tmp2;
-	
+
 	tmp1 = *list;
 	tmp2 = n2->next;
 	if (tmp1 == n1)
@@ -82,7 +82,7 @@ void		swap_nodes(t_dirlist **list, t_dirlist *n1, t_dirlist *n2)
 		tmp1 = tmp1->next;
 	tmp1->next = n1;
 	n2->next = n1->next;
-	n1->next = tmp2;	
+	n1->next = tmp2;
 }
 
 void		sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_options op)
@@ -101,7 +101,7 @@ void		sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_op
 		{
 			cmp = f_cmp((const char *)tmp->dir->d_name, (const char *)min->dir->d_name);
 			cmp = (op.r ? cmp * -1 : cmp);
-			if (cmp < 0)	
+			if (cmp < 0)
 				min = tmp;
 			tmp = tmp->next;
 		}
