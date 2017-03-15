@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 10:24:58 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/13 17:31:12 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/14 14:34:56 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum
 typedef struct			s_dirlist
 {
 	struct dirent		*dir;
+	char				*path;
 	struct s_dirlist	*next;
 }						t_dirlist;
 
@@ -42,21 +43,27 @@ typedef struct	s_options
 	t_bool		a;
 	t_bool		r;
 	t_bool		t;
+	t_bool		g;
+	t_bool		G;
 }				t_options;
 
 t_options		*init_options(void);
 t_options		*get_options(char *options);
-t_dirlist		*create_list_item(struct dirent *p_dir);
+t_dirlist		*create_list_item(struct dirent *p_dir, char *path);
 t_dirlist		*pop_list(t_dirlist **list);
-t_dirlist		*scan_directory(DIR *dir, t_options ops);
+t_dirlist		*scan_directory(DIR *dir, char *path, t_options ops);
 void			push_list(t_dirlist **list, t_dirlist *node);
 void			append_list(t_dirlist **list, t_dirlist *node);
 void			sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_options op);
 void			print_list(t_dirlist *list, char *path, t_options ops);
-void			print_file_permissions(char *filename);
 int				cmp_time_modified(const char *fp1, const char *fp2);
 DIR				*get_dir(char *path);
 int				is_dir(char *path);
+void			print_file_permissions(struct stat f_stat);
+void			print_file_size(struct stat f_stat);
+void			print_group_info(struct stat f_stat, t_options ops);
+void			print_num_links(struct stat f_stat);
+void			print_file_mode(struct stat f_stat);
 
 
 #endif
