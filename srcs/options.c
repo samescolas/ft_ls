@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:27:16 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/13 14:06:33 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/14 13:35:06 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_options	*init_options(void)
 		ret->a = FALSE;
 		ret->r = FALSE;
 		ret->t = FALSE;
+		ret->g = FALSE;
+		ret->G = FALSE;
 	}
 	return (ret);
 }
@@ -47,6 +49,10 @@ t_options	*get_options(char *options)
 			ret->r = TRUE;
 		else if (*options == 't')
 			ret->t = TRUE;
+		else if (*options == 'g')
+			ret->g = TRUE;
+		else if (*options == 'G')
+			ret->G = TRUE;
 		else
 		{
 			write(2, "option not recognized\n", 22);

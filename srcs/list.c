@@ -6,19 +6,31 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 08:25:35 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/13 11:36:12 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/14 17:14:16 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_dirlist	*create_list_item(struct dirent *p_dir)
+t_dirlist	*create_list_item(struct dirent *p_dir, char *path)
 {
 	t_dirlist	*ret;
 
+	write(1, "creating list item ", 19);
+	write(1, p_dir->d_name, ft_strlen(p_dir->d_name));
+	write(1, " with path ", 11);
+	write(1, path, ft_strlen(path));
+	write(1, "\n", 1);
+
+	if (!*p_dir->d_name || ft_strlen(p_dir->d_name) < 1)
+		return ((void *)0);
 	ret = (t_dirlist *)malloc(sizeof(t_dirlist));
 	if (ret)
 	{
+		if (path[ft_strlen(path) - 1] == '/')
+			ret->path = ft_strjoin(path, "");
+		else
+			ret->path = ft_strjoin(path, "/");
 		ret->dir = p_dir;
 		ret->next = NULL;
 	}
@@ -29,6 +41,8 @@ void		append_list(t_dirlist **list, t_dirlist *node)
 {
 	t_dirlist	*tmp;
 
+	if (!node || !*(node->dir->d_name))
+		return ;
 	if (!*list)
 		*list = node;
 	else
@@ -42,6 +56,8 @@ void		append_list(t_dirlist **list, t_dirlist *node)
 
 void		push_list(t_dirlist **list, t_dirlist *node)
 {
+	if (!node || !*(node->dir->d_name))
+		return ;
 	if (!*list)
 		*list = node;
 	else
