@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 19:47:13 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/17 12:09:57 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/17 12:35:44 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ void	print_list(t_dirlist *list, t_options ops)
 		return ;
 	while (list)
 	{
-		if (ft_strlen(list->path) > 2)
+		if ((list->path)[0] == '.')
 			full_path = ft_strjoin(&((list->path)[2]), list->dir->d_name);
+		else if ((list->path)[0] == '/')
+			full_path = ft_strjoin(list->path, list->dir->d_name);
 		else
 			full_path = ft_strjoin("", list->dir->d_name);
 		if (ops.l || ops.g)
