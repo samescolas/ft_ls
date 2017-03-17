@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 12:58:18 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/14 13:29:24 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/16 10:35:05 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ void	print_file_size(struct stat f_stat)
 
 void	print_file_permissions(struct stat f_stat)
 {
-//	struct stat f_stat;
-
-//	if (lstat(filename, &f_stat) < 0)
-//		return ;
-//	print_file_mode(f_stat);
 	write(1, (f_stat.st_mode & S_IRUSR) ? "r" : "_", 1);
 	write(1, (f_stat.st_mode & S_IWUSR) ? "w" : "_", 1);
 	write(1, (f_stat.st_mode & S_IXUSR) ? "x" : "_", 1);
@@ -89,7 +84,4 @@ void	print_file_permissions(struct stat f_stat)
 	write(1, (f_stat.st_mode & S_IROTH) ? "r" : "_", 1);
 	write(1, (f_stat.st_mode & S_IWOTH) ? "w" : "_", 1);
 	write(1, (f_stat.st_mode & S_IXOTH) ? "x  " : "_  ", 3);
-//	print_num_links(f_stat);
-//	print_group_info(f_stat);
-//	print_file_size(f_stat);
 }
