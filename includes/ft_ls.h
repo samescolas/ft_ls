@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 10:24:58 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/14 14:34:56 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/17 12:25:29 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ t_options		*init_options(void);
 t_options		*get_options(char *options);
 t_dirlist		*create_list_item(struct dirent *p_dir, char *path);
 t_dirlist		*pop_list(t_dirlist **list);
-t_dirlist		*scan_directory(DIR *dir, char *path, t_options ops);
+t_dirlist		*scan_directory(char *path, t_options ops);
 void			push_list(t_dirlist **list, t_dirlist *node);
 void			append_list(t_dirlist **list, t_dirlist *node);
 void			sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_options op);
-void			print_list(t_dirlist *list, char *path, t_options ops);
+void			print_list(t_dirlist *list, t_options ops);
+void			free_node(t_dirlist *node);
+void			free_list(t_dirlist **list);
 int				cmp_time_modified(const char *fp1, const char *fp2);
 DIR				*get_dir(char *path);
 int				is_dir(char *path);
