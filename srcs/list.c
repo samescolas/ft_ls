@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 08:25:35 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/14 17:14:16 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/17 12:25:22 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,6 @@ t_dirlist	*create_list_item(struct dirent *p_dir, char *path)
 {
 	t_dirlist	*ret;
 
-	write(1, "creating list item ", 19);
-	write(1, p_dir->d_name, ft_strlen(p_dir->d_name));
-	write(1, " with path ", 11);
-	write(1, path, ft_strlen(path));
-	write(1, "\n", 1);
-
-	if (!*p_dir->d_name || ft_strlen(p_dir->d_name) < 1)
-		return ((void *)0);
 	ret = (t_dirlist *)malloc(sizeof(t_dirlist));
 	if (ret)
 	{
@@ -31,38 +23,49 @@ t_dirlist	*create_list_item(struct dirent *p_dir, char *path)
 			ret->path = ft_strjoin(path, "");
 		else
 			ret->path = ft_strjoin(path, "/");
-		ret->dir = p_dir;
+		ret->dir = (struct dirent *)malloc(sizeof(struct dirent));
+		ft_memcpy(ret->dir, p_dir, sizeof(struct dirent));
 		ret->next = NULL;
 	}
 	return (ret);
 }
 
-void		append_list(t_dirlist **list, t_dirlist *node)
+void		free_node(t_dirlist *node)
+{
+	if (!node)
+		return ;
+	ft_strdel(&(node->path));
+	free(node->dir);
+	node->next = NULL;
+	node->dir = NULL;
+}
+
+void		free_list(t_dirlist **list)
 {
 	t_dirlist	*tmp;
 
-	if (!node || !*(node->dir->d_name))
+	if (!list || !*list)
 		return ;
-	if (!*list)
-		*list = node;
-	else
-	{
-		tmp = *list;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = node;
-	}
+	tmp = *list;
+	*list = (*list)->next;
+	free_node(tmp);
 }
 
 void		push_list(t_dirlist **list, t_dirlist *node)
 {
-	if (!node || !*(node->dir->d_name))
+	t_dirlist	*tmp;
+
+	tmp = *list;
+	if (!node)
 		return ;
-	if (!*list)
+	if (!list || !*list)
+	{
 		*list = node;
+		node->next = NULL;
+	}
 	else
 	{
-		node->next = *list;
+		node->next = tmp;
 		*list = node;
 	}
 }
@@ -71,7 +74,7 @@ t_dirlist	*pop_list(t_dirlist **list)
 {
 	t_dirlist	*tmp;
 
-	if (!*list)
+	if (!list || !*list)
 		return ((void *)0);
 	tmp = *list;
 	*list = (*list)->next;
