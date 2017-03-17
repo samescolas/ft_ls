@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 09:53:29 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/14 17:17:48 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/17 12:13:15 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,40 +30,35 @@ static void	print_linked_list(t_dirlist *list)
 
 void	ft_ls(char *path, t_options ops, int first)
 {
-	DIR				*dirp;
-	struct dirent	*dp;
 	t_dirlist		*list;
+	t_dirlist		*head;
 	t_dirlist		*node;
+	char			*full_path;
 
 	list = (void *)0;
-	write(1, "calling ls with path ", 21);
-	write(1, path, ft_strlen(path));
-	write(1, "\n", 1);
 	if (!first)
 	{
 		write(1, "\n", 1);
 		write(1, path, ft_strlen(path));
 		write(1, ":\n", 2);
 	}
-	dirp = get_dir(path);
-	list = scan_directory(dirp, path, ops);
-	print_list(list, ft_strjoin(path, "/"), ops);
+	list = scan_directory(path, ops);
+	head = list;
+	print_list(list, ops);
 	if (ops.R)
 	{
-		while (list != NULL)
+		while ((node = pop_list(&list)))
 		{
-			node = pop_list(&list);
-			if (ft_strcmp(node->dir->d_name, ".") && ft_strcmp(node->dir->d_name, "..") && is_dir(ft_strjoin(path, ft_strjoin("/", node->dir->d_name))))
-			{
-				ft_ls(ft_strjoin(path, ft_strjoin("/", node->dir->d_name)), ops, 0);
-				push_list(&list, scan_directory(get_dir(ft_strjoin(path, ft_strjoin("/", (node->dir->d_name)))), path, ops));
-			}
+			full_path = ft_strjoin(node->path, node->dir->d_name);
+			if (ft_strcmp(node->dir->d_name, ".") &&
+					ft_strcmp(node->dir->d_name, "..") && is_dir(full_path))
+				ft_ls(full_path, ops, 0);
+			ft_strdel(&full_path);
+			free_node(node);
 		}
 	}
-	write(1, "closing dir ", 12);
-	write(1, path, ft_strlen(path));
-	write(1, "\n", 1);
-	closedir((DIR *)dirp);
+	else
+		free_list(&head);
 }
 
 int		main(int argc, char **argv)
