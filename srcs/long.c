@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 12:58:18 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/20 18:38:02 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/21 16:46:55 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,5 @@ void	print_file_permissions(struct stat f_stat)
 	write(1, (f_stat.st_mode & S_IROTH) ? "r" : "-", 1);
 	write(1, (f_stat.st_mode & S_IWOTH) ? "w" : "-", 1);
 	write(1, (f_stat.st_mode & S_IXOTH) ? "x" : "-", 1);
+	write(1, " ", 1);
 }
