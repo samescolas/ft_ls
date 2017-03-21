@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 08:40:29 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/17 12:31:43 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/20 18:52:28 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_dirlist	*scan_directory(char *path, t_options ops)
 	if (ops.t)
 		sort_list(&list, &cmp_time_modified, ops);
 	else
-		sort_list(&list, &ft_strcmp, ops);
+		sort_list(&list, &cmp_filename, ops);
 	closedir(dir);
 	return (list);
 }

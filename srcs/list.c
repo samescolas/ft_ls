@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 08:25:35 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/17 12:25:22 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/20 15:55:26 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void		swap_nodes(t_dirlist **list, t_dirlist *n1, t_dirlist *n2)
 	n1->next = tmp2;
 }
 
-void		sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_options op)
+void		sort_list(t_dirlist **list, int (*f_cmp)(t_dirlist *, t_dirlist *), t_options op)
 {
 	t_dirlist	*min;
 	t_dirlist	*node;
@@ -118,7 +118,7 @@ void		sort_list(t_dirlist **list, int (*f_cmp)(const char *, const char *), t_op
 		min = node;
 		while (tmp)
 		{
-			cmp = f_cmp((const char *)tmp->dir->d_name, (const char *)min->dir->d_name);
+			cmp = f_cmp(tmp, min);
 			cmp = (op.r ? cmp * -1 : cmp);
 			if (cmp < 0)
 				min = tmp;

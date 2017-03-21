@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 09:53:29 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/17 12:13:15 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/20 18:32:16 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ static void	print_linked_list(t_dirlist *list)
 	}
 }
 
+static void	print_path(char *path)
+{
+	write(1, "\n", 1);
+	write(1, path, ft_strlen(path));
+	write(1, ":\n", 2);
+}
+
 void	ft_ls(char *path, t_options ops, int first)
 {
 	t_dirlist		*list;
@@ -37,11 +44,7 @@ void	ft_ls(char *path, t_options ops, int first)
 
 	list = (void *)0;
 	if (!first)
-	{
-		write(1, "\n", 1);
-		write(1, path, ft_strlen(path));
-		write(1, ":\n", 2);
-	}
+		print_path(path);
 	list = scan_directory(path, ops);
 	head = list;
 	print_list(list, ops);
