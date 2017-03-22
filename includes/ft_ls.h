@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 10:24:58 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/20 18:54:06 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/21 19:38:35 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <pwd.h>
 # include <grp.h>
 # include <time.h>
+# include <stdio.h>
 # include "../libft/libft.h"
 
 # define MAX_PATH 4096
@@ -48,6 +49,7 @@ typedef struct	s_options
 	t_bool		t;
 	t_bool		g;
 	t_bool		G;
+	t_bool		one;
 }				t_options;
 
 typedef struct	s_lengths
