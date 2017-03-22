@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 12:58:18 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/22 11:35:31 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/22 11:53:17 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,22 @@ void	print_group_info(struct stat f_stat, t_options ops, size_t o1, size_t o2)
 
 	if (!ops.g)
 	{
-		if (pwd == 0)
+		if (pwd == NULL)
+			ft_putnbr((int)f_stat.st_uid);
+		else if (f_stat.st_uid == 0)
 			write(1, "root ", 5);
 		else
 			write(1, pwd->pw_name, ft_strlen(pwd->pw_name));
 		write(1, "  ", 2);
 	}
-	i = ft_strlen(pwd->pw_name);
+	i = (pwd == NULL ? ft_numlen((int)f_stat.st_uid) : ft_strlen(pwd->pw_name));
 	while (i++ < o1)
 		write(1, " ", 1);
-	if (grp == 0)
-		write(1, "root ", 5);
+	if (grp == NULL)
+		ft_putnbr((int)f_stat.st_uid);
 	else
 		write(1, grp->gr_name, ft_strlen(grp->gr_name));
-	i = ft_strlen(grp->gr_name);
+	i = (grp == NULL ? ft_numlen((int)f_stat.st_gid) : ft_strlen(grp->gr_name));
 	while (i++ < o2)
 		write(1, " ", 1);
 	write(1, "  ", 2);
