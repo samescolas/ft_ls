@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 12:58:18 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/21 19:28:05 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/22 11:35:31 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,21 @@ void	print_file_permissions(struct stat f_stat)
 {
 	write(1, (f_stat.st_mode & S_IRUSR) ? "r" : "-", 1);
 	write(1, (f_stat.st_mode & S_IWUSR) ? "w" : "-", 1);
-	write(1, (f_stat.st_mode & S_IXUSR) ? "x" : "-", 1);
+	if (f_stat.st_mode & S_ISUID)
+		write(1, (f_stat.st_mode & S_IXUSR) ? "s" : "S", 1);
+	else
+		write(1, (f_stat.st_mode & S_IXUSR) ? "x" : "-", 1);
 	write(1, (f_stat.st_mode & S_IRGRP) ? "r" : "-", 1);
 	write(1, (f_stat.st_mode & S_IWGRP) ? "w" : "-", 1);
-	write(1, (f_stat.st_mode & S_IXGRP) ? "x" : "-", 1);
+	if (f_stat.st_mode & S_ISGID)
+		write(1, (f_stat.st_mode & S_IXGRP) ? "s" : "S", 1);
+	else
+		write(1, (f_stat.st_mode & S_IXGRP) ? "x" : "-", 1);
 	write(1, (f_stat.st_mode & S_IROTH) ? "r" : "-", 1);
 	write(1, (f_stat.st_mode & S_IWOTH) ? "w" : "-", 1);
-	write(1, (f_stat.st_mode & S_IXOTH) ? "x" : "-", 1);
+	if (f_stat.st_mode & S_ISVTX)
+		write(1, (f_stat.st_mode & S_IXOTH) ? "t" : "T", 1);
+	else
+		write(1, (f_stat.st_mode & S_IXOTH) ? "x" : "-", 1);
 	write(1, " ", 1);
 }

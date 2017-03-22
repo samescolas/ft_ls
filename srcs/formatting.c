@@ -43,10 +43,7 @@ t_lengths	*get_max_lengths(t_dirlist *list)
 			return (maxes);
 		pwd = getpwuid(f_stat.st_uid);
 		grp = getgrgid(f_stat.st_gid);
-		if (f_stat.st_size > 0)
-			maxes->total += (f_stat.st_size / 512);
-		if (f_stat.st_size > 0 && f_stat.st_size % 512 != 0)
-			maxes->total += 1;
+		maxes->total += f_stat.st_blocks;
 		if (ft_numlen(f_stat.st_nlink) > maxes->num_links)
 			maxes->num_links = ft_numlen(f_stat.st_nlink);
 		if (ft_strlen(pwd->pw_name) > maxes->pwd)
