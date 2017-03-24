@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:27:16 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/21 19:38:27 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/22 19:18:55 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,42 @@ t_options	*init_options(void)
 		ret->t = FALSE;
 		ret->g = FALSE;
 		ret->G = FALSE;
+		ret->multiple_files = FALSE;
 		ret->one = FALSE;
 	}
 	return (ret);
 }
 
-t_options	*get_options(char *options)
+void		add_options(char *options, t_options *ops)
 {
-	t_options	*ret;
 
 	if (!*options || *options++ != '-')
-		return ((void *)0);
-	ret = init_options();
+		return ;
 	while (*options)
 	{
 		if (*options == 'R')
-			ret->R = TRUE;
+			ops->R = TRUE;
 		else if (*options == 'l')
-			ret->l = TRUE;
+			ops->l = TRUE;
 		else if (*options == 'a')
-			ret->a = TRUE;
+			ops->a = TRUE;
 		else if (*options == 'r')
-			ret->r = TRUE;
+			ops->r = TRUE;
 		else if (*options == 't')
-			ret->t = TRUE;
+			ops->t = TRUE;
 		else if (*options == 'g')
-			ret->g = TRUE;
+			ops->g = TRUE;
 		else if (*options == 'G')
-			ret->G = TRUE;
+			ops->G = TRUE;
 		else if (*options == '1')
-			ret->one = TRUE;
+			ops->one = TRUE;
 		else
 		{
-			write(2, "option not recognized\n", 22);
+			write(1, "ft_ls: illegal option -- ", 25);
+			write(1, options, 1);
+			write(1, "\nusage: ft_ls [-RGaglrt1] [file ...]\n", 37);
 			exit(1);
 		}
 		++options;
 	}
-	return (ret);
 }

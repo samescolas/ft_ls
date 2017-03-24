@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 11:00:38 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/20 14:33:10 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/23 16:49:21 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ static int	older_than_6_months(unsigned long modification_time)
 	return (time((void *)0) - modification_time > 3600 * 24 * 180);
 }
 
-void	print_time(struct stat f_stat)
+void	print_time(struct stat f_stat, t_bool opG)
 {
 	char	*t;
 
 	t = ctime((const time_t *)&(f_stat.st_mtime));
+	if (opG)
+		write(1, BK2, ft_strlen(BK2));
 	if (older_than_6_months(f_stat.st_mtime))
 	{
 		write(1, &(t[4]), ft_strlen(t) - 19);
@@ -31,4 +33,6 @@ void	print_time(struct stat f_stat)
 	else
 		write(1, &(t[4]), ft_strlen(t) - 13);
 	write(1, " ", 1);
+	if (opG)
+		write(1, DEF, ft_strlen(DEF));
 }
