@@ -6,25 +6,28 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:09:56 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/23 18:10:14 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:44:28 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static struct stat	get_stat(char *path, char *name)
+struct stat	get_stat(char *path, char *name)
 {
 	char		*full_path;
 	struct stat	ret;
 
-	full_path = ft_strjoin(path, name);
+	if (!name)
+		full_path = ft_strdup(path);
+	else
+		full_path = ft_strjoin(path, name);
 	if (lstat(full_path, &ret) < 0)
 		return (ret);
 	ft_strdel(&full_path);
 	return (ret);
 }
 
-int		cmp_args_f(t_btree *f1, t_btree *f2)
+int			cmp_args_f(t_btree *f1, t_btree *f2)
 {
 	if (is_dir(f1->path))
 	{
@@ -42,7 +45,7 @@ int		cmp_args_f(t_btree *f1, t_btree *f2)
 	}
 }
 
-int		cmp_args_t(t_btree *f1, t_btree *f2)
+int			cmp_args_t(t_btree *f1, t_btree *f2)
 {
 	if (is_dir(f1->path))
 	{
@@ -60,7 +63,7 @@ int		cmp_args_t(t_btree *f1, t_btree *f2)
 	}
 }
 
-int		cmp_time(t_btree *f1, t_btree *f2)
+int			cmp_time(t_btree *f1, t_btree *f2)
 {
 	struct stat		f1_stat;
 	struct stat		f2_stat;
@@ -82,7 +85,7 @@ int		cmp_time(t_btree *f1, t_btree *f2)
 		return (f2_stat.st_mtime - f1_stat.st_mtime);
 }
 
-int		cmp_filename(t_btree *f1, t_btree *f2)
+int			cmp_filename(t_btree *f1, t_btree *f2)
 {
 	if (f1->dir && f2->dir)
 		return (ft_strcmp(f1->dir->d_name, f2->dir->d_name));

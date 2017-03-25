@@ -6,32 +6,32 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 19:47:13 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/23 17:28:28 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:47:42 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_long(char *path, t_options ops, t_lengths maxes)
+void		print_long(char *path, t_ops ops, t_lengths maxes)
 {
 	struct stat	f_stat;
 
 	if (lstat(path, &f_stat) < 0)
 		return ;
-	print_file_mode(f_stat, ops.G);
-	print_file_permissions(f_stat, ops.G);
-	print_num_links(f_stat, maxes.num_links, ops.G);
-	print_group_info(f_stat, ops, maxes, ops.G);
-	print_file_size(f_stat, maxes, ops.G);
-	print_time(f_stat, ops.G);
+	print_file_mode(f_stat, ops.color);
+	print_file_permissions(f_stat, ops.color);
+	print_num_links(f_stat, maxes.num_links, ops.color);
+	print_group_info(f_stat, ops, maxes, ops.color);
+	print_file_size(f_stat, maxes, ops.color);
+	print_time(f_stat, ops.color);
 }
 
-static void	print_filename(char *path, char *filename, t_options ops)
+static void	print_filename(char *path, char *filename, t_ops ops)
 {
 	if (is_dir(path))
-		pad_str(filename, 0, (ops.G ? BL2 : (void *)0));
+		pad_str(filename, 0, (ops.color ? BL2 : (void *)0));
 	else
-		pad_str(filename, 0, (ops.G ? BLU : (void *)0));
+		pad_str(filename, 0, (ops.color ? BLU : (void *)0));
 }
 
 static void	print_linked_to_file(char *filepath)
@@ -53,7 +53,7 @@ static void	print_linked_to_file(char *filepath)
 	write(1, "\n", 1);
 }
 
-static void	print_node(t_btree *node, t_options ops, t_lengths *maxes)
+static void	print_node(t_btree *node, t_ops ops, t_lengths *maxes)
 {
 	char	*full_path;
 
@@ -74,7 +74,7 @@ static void	print_node(t_btree *node, t_options ops, t_lengths *maxes)
 	ft_strdel(&full_path);
 }
 
-void	print_tree(t_btree *tree, t_options ops)
+void		print_tree(t_btree *tree, t_ops ops)
 {
 	char		*full_path;
 	t_lengths	*maxes;

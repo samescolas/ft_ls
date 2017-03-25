@@ -6,7 +6,7 @@
 #    By: sescolas <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/06 12:39:43 by sescolas          #+#    #+#              #
-#    Updated: 2017/03/22 16:03:28 by sescolas         ###   ########.fr        #
+#    Updated: 2017/03/24 19:31:09 by sescolas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,10 @@ SRCS =							\
 	   srcs/cmp.c				\
 	   srcs/long.c				\
 	   srcs/long2.c				\
-	   srcs/formatting.c	\
-	   srcs/tree.c
+	   srcs/formatting.c		\
+	   srcs/tree.c				\
+	   srcs/tree2.c				\
+	   srcs/init.c				\
 
 
 OBJS = $(subst srcs/,,$(SRCS:.c=.o))

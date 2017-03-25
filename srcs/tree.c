@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/22 12:58:17 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/23 17:51:49 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/24 19:52:30 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_btree		*create_listnode(char *path)
 {
-	t_btree *ret;
+	t_btree	*ret;
 
 	ret = (t_btree *)malloc(sizeof(t_btree));
 	if (ret)
@@ -26,7 +26,6 @@ t_btree		*create_listnode(char *path)
 	}
 	return (ret);
 }
-
 
 t_btree		*create_node(struct dirent	*p_dir, char *path)
 {
@@ -51,23 +50,33 @@ t_btree		*create_node(struct dirent	*p_dir, char *path)
 	return (ret);
 }
 
-void		btree_insert(t_btree **root, t_btree *node, t_options ops, int (*cmp)(t_btree *, t_btree *))
+static int	compare(\
+		t_btree *n1, t_btree *n2, t_ops ops, int (*cmp)(t_btree *, t_btree *))
+{
+	int		ret;
+
+	if (ops.f)
+		return (0);
+	if ((ret = ((ops.r ? -1 : 1) * cmp(n1, n2))))
+		return (ret);
+	if (n1->dir && n2->dir)
+		ret = (ops.r ? -1 : 1) * ft_strcmp(n1->dir->d_name, n2->dir->d_name);
+	else
+		ret = (ops.r ? -1 : 1) * ft_strcmp(n1->path, n2->path);
+	return (ret);
+}
+
+void		btree_insert(t_btree **root, t_btree *node,\
+		t_ops ops, int (*cmp)(t_btree *, t_btree *))
 {
 	t_btree	*tree;
 	int		val;
 
-	tree = *root;
-	if (!tree)
+	if (!(tree = *root))
 		*root = node;
-	else	
+	else
 	{
-		if ((val = ((ops.r ? -1 : 1) * cmp(node, tree))) == 0)
-		{
-			if (node->dir)
-				val = (ops.r ? -1 : 1) * ft_strcmp(node->dir->d_name, tree->dir->d_name);
-			else
-				val = (ops.r ? -1 : 1) * ft_strcmp(node->path, tree->path);
-		}
+		val = compare(node, tree, ops, cmp);
 		if (val < 0)
 		{
 			if (tree->left)
@@ -78,14 +87,15 @@ void		btree_insert(t_btree **root, t_btree *node, t_options ops, int (*cmp)(t_bt
 		else
 		{
 			if (tree->right)
-				btree_insert(&(tree->right), node, ops, cmp); 
+				btree_insert(&(tree->right), node, ops, cmp);
 			else
 				tree->right = node;
 		}
 	}
 }
 
-void		btree_apply_infix(t_btree *root, t_options ops, t_lengths *maxes, void (*applyf)(t_btree *, t_options, t_lengths *))
+void		btree_apply_infix(t_btree *root, t_ops ops,\
+		t_lengths *maxes, void (*applyf)(t_btree *, t_ops, t_lengths *))
 {
 	if (!root)
 		return ;

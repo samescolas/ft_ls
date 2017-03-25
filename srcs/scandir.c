@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 08:40:29 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/23 14:36:45 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/24 19:04:32 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 static void	print_error(char *path)
 {
-	if (1/*is_readonly(path)*/)
-	{
-		write(1, "ft_ls: ", 7);
-		write(1, path, ft_strlen(path));
-		write(1, ": Permission denied\n", 20);
-	}
+	write(2, "ft_ls: ", 7);
+	write(2, path, ft_strlen(path));
+	write(2, ": Permission denied\n", 20);
 }
 
-char	*get_d_name(char *path)
+char		*get_d_name(char *path)
 {
 	char	*next;
 
@@ -41,7 +38,10 @@ static DIR	*get_dir(char *path)
 	if (path[0] == '/' || path[0] == '.')
 		ret = opendir(path);
 	else
-		ret = opendir((full_path = ft_strjoin("./", path)));
+	{
+		full_path = ft_strjoin("./", path);
+		ret = opendir(full_path);
+	}
 	if (!ret)
 		print_error(get_d_name(path));
 	if (full_path != (void *)0)
@@ -49,7 +49,7 @@ static DIR	*get_dir(char *path)
 	return (ret);
 }
 
-t_btree	*scan_directory(char *path, t_options ops)
+t_btree		*scan_directory(char *path, t_ops ops)
 {
 	DIR				*dir;
 	struct dirent	*dp;
@@ -60,7 +60,8 @@ t_btree	*scan_directory(char *path, t_options ops)
 		return (tree);
 	while ((dp = readdir(dir)) != NULL)
 		if (*dp->d_name && (dp->d_name[0] != '.' || ops.a))
-			btree_insert(&tree, create_node(dp, path), ops, ops.t ? &cmp_time: &cmp_filename);
+			btree_insert(&tree, create_node(dp, path),
+					ops, ops.t ? &cmp_time : &cmp_filename);
 	closedir(dir);
 	return (tree);
 }

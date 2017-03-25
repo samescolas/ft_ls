@@ -6,62 +6,72 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:27:16 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/22 19:18:55 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/24 18:16:50 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_options	*init_options(void)
+static void	print_error_message(char option)
 {
-	t_options *ret;
+	write(2, "ft_ls: illegal option -- ", 25);
+	write(2, &option, 1);
+	write(2, "\nusage: ft_ls [-RGaglrt1] [file ...]\n", 37);
+	exit(1);
+}
 
-	ret = (t_options *)malloc(sizeof(t_options));
+t_ops		*init_ops(void)
+{
+	t_ops *ret;
+
+	ret = (t_ops *)malloc(sizeof(t_ops));
 	if (ret)
 	{
-		ret->R = FALSE;
+		ret->recurse = FALSE;
 		ret->l = FALSE;
 		ret->a = FALSE;
 		ret->r = FALSE;
 		ret->t = FALSE;
 		ret->g = FALSE;
-		ret->G = FALSE;
+		ret->f = FALSE;
+		ret->color = FALSE;
 		ret->multiple_files = FALSE;
 		ret->one = FALSE;
 	}
 	return (ret);
 }
 
-void		add_options(char *options, t_options *ops)
+static void	add_option(char op, t_ops *ops)
 {
+	if (op == 'R')
+		ops->recurse = TRUE;
+	else if (op == 'l')
+		ops->l = TRUE;
+	else if (op == 'a')
+		ops->a = TRUE;
+	else if (op == 'r')
+		ops->r = TRUE;
+	else if (op == 't')
+		ops->t = TRUE;
+	else if (op == 'g')
+		ops->g = TRUE;
+	else if (op == 'G')
+		ops->color = TRUE;
+	else if (op == 'f')
+	{
+		ops->f = TRUE;
+		ops->a = TRUE;
+	}
+	else if (op == '1')
+		ops->one = TRUE;
+	else
+		print_error_message(op);
+}
 
+void		add_options(char *options, t_ops *ops)
+{
 	if (!*options || *options++ != '-')
 		return ;
 	while (*options)
-	{
-		if (*options == 'R')
-			ops->R = TRUE;
-		else if (*options == 'l')
-			ops->l = TRUE;
-		else if (*options == 'a')
-			ops->a = TRUE;
-		else if (*options == 'r')
-			ops->r = TRUE;
-		else if (*options == 't')
-			ops->t = TRUE;
-		else if (*options == 'g')
-			ops->g = TRUE;
-		else if (*options == 'G')
-			ops->G = TRUE;
-		else if (*options == '1')
-			ops->one = TRUE;
-		else
-		{
-			write(1, "ft_ls: illegal option -- ", 25);
-			write(1, options, 1);
-			write(1, "\nusage: ft_ls [-RGaglrt1] [file ...]\n", 37);
-			exit(1);
-		}
-		++options;
-	}
+		add_option(*options++, ops);
 }

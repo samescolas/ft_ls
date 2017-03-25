@@ -6,13 +6,13 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/22 15:28:24 by sescolas          #+#    #+#             */
-/*   Updated: 2017/03/23 17:09:24 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:49:07 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static t_lengths	*init_max_lengths()
+static t_lengths	*init_max_lengths(void)
 {
 	t_lengths	*ret;
 
@@ -30,7 +30,7 @@ static t_lengths	*init_max_lengths()
 	return (ret);
 }
 
-static void	add_to_maxes(t_btree *node, t_options ops, t_lengths *maxes)
+static void			add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes)
 {
 	struct stat		f_stat;
 	struct passwd	*pwd;
@@ -38,19 +38,13 @@ static void	add_to_maxes(t_btree *node, t_options ops, t_lengths *maxes)
 	char			*path;
 	size_t			val;
 
-	if (node->dir)
-		path = ft_strjoin(node->path, node->dir->d_name);
-	else
-		path = ft_strdup(node->path);
-	if (lstat(path, &f_stat) < 0)
-		return ;
+	f_stat = get_stat(node->path, (node->dir ? node->dir->d_name : ""));
 	if (S_ISBLK(f_stat.st_mode) || S_ISCHR(f_stat.st_mode))
-	{
 		if ((val = ft_numlen(major(f_stat.st_rdev))) > maxes->major)
 			maxes->major = val;
+	if (S_ISBLK(f_stat.st_mode) || S_ISCHR(f_stat.st_mode))
 		if ((val = ft_numlen(minor(f_stat.st_rdev))) > maxes->minor)
 			maxes->minor = val;
-	}
 	pwd = getpwuid(f_stat.st_uid);
 	grp = getgrgid(f_stat.st_gid);
 	maxes->total += f_stat.st_blocks;
@@ -62,10 +56,9 @@ static void	add_to_maxes(t_btree *node, t_options ops, t_lengths *maxes)
 		maxes->grp = val;
 	if ((val = ft_numlen(f_stat.st_size)) > maxes->f_size)
 		maxes->f_size = val;
-	ft_strdel(&path);
 }
 
-void		pad_str(char *str, int offset, char *color)
+void				pad_str(char *str, int offset, char *color)
 {
 	while (offset < 0)
 	{
@@ -83,7 +76,7 @@ void		pad_str(char *str, int offset, char *color)
 		write(1, DEF, 4);
 }
 
-void		pad_num(int num, int offset, char *color)
+void				pad_num(int num, int offset, char *color)
 {
 	while (offset < 0)
 	{
@@ -101,7 +94,7 @@ void		pad_num(int num, int offset, char *color)
 		write(1, "\x1B[0m", 4);
 }
 
-t_lengths	*get_max_lengths(t_btree *tree, t_options ops)
+t_lengths			*get_max_lengths(t_btree *tree, t_ops ops)
 {
 	t_lengths		*maxes;
 
