@@ -74,19 +74,19 @@ static void	print_node(t_btree *node, t_ops ops, t_lengths *maxes)
 	ft_strdel(&full_path);
 }
 
-void		print_tree(t_btree *tree, t_ops ops)
+void		print_tree(t_btree *tree, t_ops ops, t_lengths maxes)
 {
 	char		*full_path;
-	t_lengths	*maxes;
+	//t_lengths	*maxes;
 
 	if (!tree)
 		return ;
 	if (ops.l || ops.g)
 	{
-		maxes = get_max_lengths(tree, ops);
+		//maxes = get_max_lengths(tree, ops);
 		write(1, "total ", 6);
-		ft_putnbr(maxes->total);
+		ft_putnbr(maxes.total);
 		write(1, "\n", 1);
 	}
-	btree_apply_infix(tree, ops, maxes, &print_node);
+	btree_apply_infix(tree, ops, &maxes, &print_node);
 }

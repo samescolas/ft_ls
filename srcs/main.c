@@ -33,26 +33,6 @@ static void		recurse(t_btree *node, t_ops ops, t_lengths *empty)
 	ft_strdel(&full_path);
 }
 
-void			ft_ls(char *path, t_ops ops, t_bool one_and_only)
-{
-	t_btree			*tree;
-	char			*full_path;
-
-	tree = (void *)0;
-	if (path[0] != '.' && path[0] != '/')
-		full_path = ft_strjoin("./", path);
-	else
-		full_path = ft_strdup(path);
-	if (!one_and_only)
-		print_path(full_path);
-	tree = scan_directory(full_path, ops);
-	print_tree(tree, ops);
-	if (ops.recurse)
-		btree_apply_infix(tree, ops, (void *)0, &recurse);
-	ft_strdel(&full_path);
-	uproot(&tree);
-}
-
 static void		call_ls(t_btree *node, t_ops ops, t_lengths *empty)
 {
 	static int	first_file;
@@ -82,6 +62,29 @@ static void		call_ls(t_btree *node, t_ops ops, t_lengths *empty)
 	first_file = 424242;
 }
 
+void			ft_ls(char *path, t_ops ops, t_bool one_and_only)
+{
+	t_btree			*tree;
+	t_lengths		*maxes;
+	char			*full_path;
+
+	tree = (void *)0;
+	maxes = init_max_lengths();
+	if (path[0] != '.' && path[0] != '/')
+		full_path = ft_strjoin("./", path);
+	else
+		full_path = ft_strdup(path);
+	if (!one_and_only)
+		print_path(full_path);
+	tree = scan_directory(full_path, ops, maxes);
+	print_tree(tree, ops, *maxes);
+	if (ops.recurse)
+		btree_apply_infix(tree, ops, (void *)0, &recurse);
+	ft_strdel(&full_path);
+	free(maxes);
+	uproot(&tree);
+}
+
 int				main(int argc, char **argv)
 {
 	DIR		*dp;
@@ -104,5 +107,6 @@ int				main(int argc, char **argv)
 		btree_apply_infix(tree, *ops, (void *)0, &call_ls);
 		uproot(&tree);
 	}
+	free(ops);
 	return (0);
 }

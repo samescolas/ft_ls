@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-static t_lengths	*init_max_lengths(void)
+t_lengths	*init_max_lengths(void)
 {
 	t_lengths	*ret;
 
@@ -30,7 +30,7 @@ static t_lengths	*init_max_lengths(void)
 	return (ret);
 }
 
-static void			add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes)
+void			add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes)
 {
 	struct stat		f_stat;
 	struct passwd	*pwd;

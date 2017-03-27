@@ -14,7 +14,7 @@
 
 static int	older_than_6_months(unsigned long modification_time)
 {
-	return (time((void *)0) - modification_time > 3600 * 24 * 180);
+	return (time((void *)0) - modification_time > 60 * 60 * 24 * 180);
 }
 
 void		print_time(struct stat f_stat, t_bool color)

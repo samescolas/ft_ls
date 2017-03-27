@@ -12,14 +12,35 @@
 
 #include "ft_ls.h"
 
-static void	print_error_message(char *path)
+static t_btree	*load_error_message(t_btree *node, t_ops ops)
+{
+	static t_btree	*error_tree;
+
+	if (!error_tree)
+		error_tree = (void *)0;
+	if (!node)
+		return (error_tree);
+	btree_insert(&error_tree, node, ops, &cmp_filename);
+	return (error_tree);
+}
+
+static void		print_node(t_btree *node, t_ops ops, t_lengths *empty)
 {
 	write(2, "ft_ls: ", 7);
-	write(2, path, ft_strlen(path));
+	write(2, node->path, ft_strlen(node->path));
 	write(2, ": No such file or directory\n", 28);
 }
 
-t_btree		*parse_args(char **argv, int argc, t_ops ops)
+static void		print_error_messages(t_ops ops)
+{
+	t_btree	*tmp;
+
+	tmp = load_error_message((void *)0, ops);
+	btree_apply_infix(tmp, ops, (void *)0, &print_node);
+	uproot(&tmp);
+}
+
+t_btree			*parse_args(char **argv, int argc, t_ops ops)
 {
 	int			i;
 	char		*path;
@@ -39,8 +60,9 @@ t_btree		*parse_args(char **argv, int argc, t_ops ops)
 		if (stat(path, &f_stat) >= 0)
 			btree_insert(&tree, node, ops, (ops.t ? &cmp_args_t : &cmp_args_f));
 		else
-			print_error_message(get_d_name(argv[i]));
+			load_error_message(node, ops);
 		ft_strdel(&path);
 	}
+	print_error_messages(ops);
 	return (tree);
 }

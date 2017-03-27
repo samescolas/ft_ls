@@ -93,6 +93,9 @@ void				btree_apply_infix(\
 						void (*applyf)(t_btree *, t_ops, t_lengths *));
 void				uproot(t_btree **tree);
 
+t_lengths			*init_max_lengths(void);
+void				add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes);
+
 t_btree				*parse_args(char **argv, int argc, t_ops ops);
 t_ops				*init_ops(void);
 void				add_options(char *options, t_ops *ops);
@@ -101,7 +104,7 @@ struct stat			get_stat(char *path, char *name);
 t_lengths			*get_max_lengths(t_btree *list, t_ops ops);
 
 int					is_dir(char *path);
-t_btree				*scan_directory(char *path, t_ops ops);
+t_btree				*scan_directory(char *path, t_ops ops, t_lengths *maxes);
 
 void				print_file_permissions(struct stat f_stat, t_bool color);
 void				print_file_size(\
@@ -113,7 +116,7 @@ void				print_num_links(\
 void				print_file_mode(struct stat f_stat, t_bool color);
 void				print_time(struct stat f_stat, t_bool color);
 void				print_long(char *path, t_ops ops, t_lengths maxes);
-void				print_tree(t_btree *tree, t_ops ops);
+void				print_tree(t_btree *tree, t_ops ops, t_lengths maxes);
 void				pad_str(char *str, int offset, char *color);
 void				pad_num(int num, int offset, char *color);
 

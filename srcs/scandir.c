@@ -42,26 +42,33 @@ static DIR	*get_dir(char *path)
 		full_path = ft_strjoin("./", path);
 		ret = opendir(full_path);
 	}
-	if (!ret)
+	if (!ret && is_dir(path))
 		print_error(get_d_name(path));
 	if (full_path != (void *)0)
 		ft_strdel(&full_path);
 	return (ret);
 }
 
-t_btree		*scan_directory(char *path, t_ops ops)
+t_btree		*scan_directory(char *path, t_ops ops, t_lengths *maxes)
 {
 	DIR				*dir;
 	struct dirent	*dp;
 	t_btree			*tree;
+	t_btree			*node;
 
 	tree = (void *)0;
 	if (!(dir = get_dir(path)))
 		return (tree);
 	while ((dp = readdir(dir)) != NULL)
-		if (*dp->d_name && (dp->d_name[0] != '.' || ops.a))
-			btree_insert(&tree, create_node(dp, path),
-					ops, ops.t ? &cmp_time : &cmp_filename);
+	{
+		node = create_node(dp, path);
+		if ((dp->d_name[0] != '.' || ops.a))
+		{
+			btree_insert(&tree, node, ops,\
+					ops.t ? &cmp_time : &cmp_filename);
+			add_to_maxes(node, ops, maxes);
+		}
+	}
 	closedir(dir);
 	return (tree);
 }
