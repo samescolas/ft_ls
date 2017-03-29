@@ -24,7 +24,10 @@ static void	btree_apply_suffix(t_btree *tree, void (*applyf)(t_btree *))
 static void	free_node(t_btree *node)
 {
 	if (node->dir)
-		ft_bzero(node->dir, sizeof(node->dir));
+	{
+		ft_bzero(node->dir, sizeof(struct dirent));
+		free(node->dir);
+	}
 	node->dir = (void *)0;
 	node->left = (void *)0;
 	node->right = (void *)0;

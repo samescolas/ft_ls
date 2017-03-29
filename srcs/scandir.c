@@ -23,10 +23,7 @@ char		*get_d_name(char *path)
 {
 	char	*next;
 
-	if (!(next = ft_strchr(path, '/')))
-		return (path);
-	else
-		return (get_d_name(next + 1));
+	return ((next = ft_strchr(path, '/')) ? get_d_name(next + 1) : path);
 }
 
 static DIR	*get_dir(char *path)

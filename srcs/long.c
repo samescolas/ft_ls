@@ -114,7 +114,7 @@ void	print_file_permissions(struct stat f_stat, t_bool color)
 	else
 		write(1, (f_stat.st_mode & S_IXGRP) ? "x" : "-", 1);
 	if (color)
-		write(1, CY2, 5);
+		write(1, BK2, 5);
 	write(1, (f_stat.st_mode & S_IROTH) ? "r" : "-", 1);
 	write(1, (f_stat.st_mode & S_IWOTH) ? "w" : "-", 1);
 	if (f_stat.st_mode & S_ISVTX)

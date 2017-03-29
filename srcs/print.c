@@ -34,7 +34,7 @@ static void	print_filename(char *path, char *filename, t_ops ops)
 		pad_str(filename, 0, (ops.color ? BLU : (void *)0));
 }
 
-static void	print_linked_to_file(char *filepath)
+static void	print_linked_to_file(char *filepath, t_ops ops)
 {
 	struct stat	f_stat;
 	char		buf[MAX_PATH];
@@ -46,10 +46,10 @@ static void	print_linked_to_file(char *filepath)
 		write(1, "\n", 1);
 		return ;
 	}
-	write(1, " -> ", 4);
+	pad_str(" -> ", 0, (ops.color ? MAG : (void *)0));
 	ft_bzero(buf, MAX_PATH);
-	if (readlink(filepath, (char *)&buf, 100) > 0)
-		write(1, buf, ft_strlen(buf));
+	if (readlink(filepath, (char *)&buf, MAX_PATH) > 0)
+		pad_str(buf, 0, (ops.color ? MAG : (void *)0));
 	write(1, "\n", 1);
 }
 
@@ -68,7 +68,7 @@ static void	print_node(t_btree *node, t_ops ops, t_lengths *maxes)
 		print_long(full_path, ops, *maxes);
 	print_filename(full_path, node->dir->d_name, ops);
 	if (ops.l || ops.g)
-		print_linked_to_file(full_path);
+		print_linked_to_file(full_path, ops);
 	else
 		write(1, "\n", 1);
 	ft_strdel(&full_path);
@@ -77,13 +77,11 @@ static void	print_node(t_btree *node, t_ops ops, t_lengths *maxes)
 void		print_tree(t_btree *tree, t_ops ops, t_lengths maxes)
 {
 	char		*full_path;
-	//t_lengths	*maxes;
 
 	if (!tree)
 		return ;
 	if (ops.l || ops.g)
 	{
-		//maxes = get_max_lengths(tree, ops);
 		write(1, "total ", 6);
 		ft_putnbr(maxes.total);
 		write(1, "\n", 1);

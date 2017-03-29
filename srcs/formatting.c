@@ -60,38 +60,30 @@ void			add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes)
 
 void				pad_str(char *str, int offset, char *color)
 {
-	while (offset < 0)
-	{
-		++offset;
+	while (offset++ < 0)
 		write(1, " ", 1);
-	}
-	write(1, color, ft_strlen(color));
+	--offset;
+	if (color)
+		write(1, color, ft_strlen(color));
 	write(1, str, ft_strlen(str));
-	while (offset > 0)
-	{
-		--offset;
+	while (offset-- > 0)
 		write(1, " ", 1);
-	}
 	if (color != (void *)0)
 		write(1, DEF, 4);
 }
 
 void				pad_num(int num, int offset, char *color)
 {
-	while (offset < 0)
-	{
-		++offset;
+	while (offset++ < 0)
 		write(1, " ", 1);
-	}
-	write(1, color, ft_strlen(color));
+	--offset;
+	if (color)
+		write(1, color, ft_strlen(color));
 	ft_putnbr(num);
-	while (offset > 0)
-	{
-		--offset;
+	while (offset-- > 0)
 		write(1, " ", 1);
-	}
 	if (color != (void *)0)
-		write(1, "\x1B[0m", 4);
+		write(1, DEF, 4);
 }
 
 t_lengths			*get_max_lengths(t_btree *tree, t_ops ops)

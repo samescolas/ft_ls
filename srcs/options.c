@@ -12,11 +12,13 @@
 
 #include "ft_ls.h"
 
-static void	print_error_message(char option)
+static void	print_error_message(char option, t_ops *ops)
 {
 	write(2, "ft_ls: illegal option -- ", 25);
 	write(2, &option, 1);
 	write(2, "\nusage: ft_ls [-RGafglrt1] [file ...]\n", 38);
+	ft_bzero(ops, sizeof(t_ops));
+	free(ops);
 	exit(1);
 }
 
@@ -65,7 +67,7 @@ static void	add_option(char op, t_ops *ops)
 	else if (op == '1')
 		ops->one = TRUE;
 	else
-		print_error_message(op);
+		print_error_message(op, ops);
 }
 
 void		add_options(char *options, t_ops *ops)

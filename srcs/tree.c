@@ -37,7 +37,7 @@ t_btree		*create_node(struct dirent	*p_dir, char *path)
 		if (path)
 		{
 			if (path[ft_strlen(path) - 1] == '/')
-				ret->path = ft_strjoin(path, "");
+				ret->path = ft_strdup(path);
 			else
 				ret->path = ft_strjoin(path, "/");
 		}
