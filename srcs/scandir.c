@@ -41,9 +41,7 @@ static DIR	*get_dir(char *path, t_bool color)
 
 char		*get_d_name(char *path)
 {
-	char	*next;
-
-	return ((next = ft_strchr(path, '/')) ? get_d_name(next + 1) : path);
+	return (ft_strrchr(path, '/'));
 }
 
 int			is_dir(char *path)
@@ -74,6 +72,8 @@ t_btree		*scan_directory(char *path, t_ops ops, t_lengths *maxes)
 					ops.t ? &cmp_time : &cmp_filename);
 			add_to_maxes(node, ops, maxes);
 		}
+		else
+			free_node(node);
 	}
 	closedir(dir);
 	return (tree);

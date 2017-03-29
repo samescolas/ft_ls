@@ -45,8 +45,8 @@ static void		print_error_messages(t_ops ops)
 t_btree			*parse_args(char **argv, int argc, t_ops ops)
 {
 	int			i;
-	char		*path;
 	struct stat	f_stat;
+	char		*path;
 	t_btree		*tree;
 	t_btree		*node;
 
@@ -54,7 +54,7 @@ t_btree			*parse_args(char **argv, int argc, t_ops ops)
 	tree = (void *)0;
 	while (++i < argc)
 	{
-		node = create_listnode(argv[i]);
+		node = create_arg_node(argv[i]);
 		if (argv[i][0] != '.' && argv[i][0] != '/')
 			path = ft_strjoin("./", argv[i]);
 		else

@@ -21,18 +21,13 @@ static void	btree_apply_suffix(t_btree *tree, void (*applyf)(t_btree *))
 	applyf(tree);
 }
 
-static void	free_node(t_btree *node)
+void	free_node(t_btree *node)
 {
-	if (node->dir)
-	{
-		ft_bzero(node->dir, sizeof(struct dirent));
-		free(node->dir);
-	}
-	node->dir = (void *)0;
 	node->left = (void *)0;
 	node->right = (void *)0;
 	ft_strdel(&(node->path));
 	free(node);
+	node = (void *)0;
 }
 
 void	uproot(t_btree **tree)

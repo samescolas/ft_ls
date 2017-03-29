@@ -39,7 +39,7 @@ void			add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes)
 
 	if (ops.one)
 		write(1, "", 1);
-	f_stat = get_stat(node->path, (node->dir ? node->dir->d_name : ""));
+	f_stat = get_lstat(node->path);
 	if (S_ISBLK(f_stat.st_mode) || S_ISCHR(f_stat.st_mode))
 		if ((val = ft_numlen(major(f_stat.st_rdev))) > maxes->major)
 			maxes->major = val;
@@ -57,34 +57,6 @@ void			add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes)
 		maxes->grp = val;
 	if ((val = ft_numlen(f_stat.st_size)) > maxes->f_size)
 		maxes->f_size = val;
-}
-
-void				pad_str(char *str, int offset, char *color)
-{
-	while (offset++ < 0)
-		write(1, " ", 1);
-	--offset;
-	if (color)
-		write(1, color, ft_strlen(color));
-	write(1, str, ft_strlen(str));
-	while (offset-- > 0)
-		write(1, " ", 1);
-	if (color != (void *)0)
-		write(1, DEF, 4);
-}
-
-void				pad_num(int num, int offset, char *color)
-{
-	while (offset++ < 0)
-		write(1, " ", 1);
-	--offset;
-	if (color)
-		write(1, color, ft_strlen(color));
-	ft_putnbr(num);
-	while (offset-- > 0)
-		write(1, " ", 1);
-	if (color != (void *)0)
-		write(1, DEF, 4);
 }
 
 t_lengths			*get_max_lengths(t_btree *tree, t_ops ops)

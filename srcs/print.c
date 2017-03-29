@@ -29,9 +29,9 @@ void		print_long(char *path, t_ops ops, t_lengths maxes)
 static void	print_filename(char *path, char *filename, t_ops ops)
 {
 	if (is_dir(path))
-		pad_str(filename, 0, (ops.color ? BL2 : (void *)0));
+		ft_padstr(filename, 0, (ops.color ? BL2 : (void *)0));
 	else
-		pad_str(filename, 0, (ops.color ? BLU : (void *)0));
+		ft_padstr(filename, 0, (ops.color ? BLU : (void *)0));
 }
 
 static void	print_linked_to_file(char *filepath, t_ops ops)
@@ -46,32 +46,22 @@ static void	print_linked_to_file(char *filepath, t_ops ops)
 		write(1, "\n", 1);
 		return ;
 	}
-	pad_str(" -> ", 0, (ops.color ? MAG : (void *)0));
+	ft_padstr(" -> ", 0, (ops.color ? MAG : (void *)0));
 	ft_bzero(buf, MAX_PATH);
 	if (readlink(filepath, (char *)&buf, MAX_PATH) > 0)
-		pad_str(buf, 0, (ops.color ? MAG : (void *)0));
+		ft_padstr(buf, 0, (ops.color ? MAG : (void *)0));
 	write(1, "\n", 1);
 }
 
 static void	print_node(t_btree *node, t_ops ops, t_lengths *maxes)
 {
-	char	*full_path;
-
-	full_path = (void *)0;
-	if ((node->path)[0] == '.')
-		full_path = ft_strjoin(node->path, node->dir->d_name);
-	else if ((node->path)[0] == '/')
-		full_path = ft_strjoin(node->path, node->dir->d_name);
-	else
-		full_path = ft_strjoin("", node->dir->d_name);
 	if (ops.l || ops.g)
-		print_long(full_path, ops, *maxes);
-	print_filename(full_path, node->dir->d_name, ops);
+		print_long(node->path, ops, *maxes);
+	print_filename(node->path, node->d_name, ops);
 	if (ops.l || ops.g)
-		print_linked_to_file(full_path, ops);
+		print_linked_to_file(node->path, ops);
 	else
 		write(1, "\n", 1);
-	ft_strdel(&full_path);
 }
 
 void		print_tree(t_btree *tree, t_ops ops, t_lengths maxes)

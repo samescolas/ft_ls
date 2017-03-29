@@ -32,7 +32,7 @@ SRCS =							\
 
 OBJS = $(subst srcs/,,$(SRCS:.c=.o))
 
-LINKS = -L libft -lft
+LINKS = -Llibft -lft
 
 INCLUDE = -Iincludes
 
@@ -40,12 +40,11 @@ LFT = -C libft
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME):
 	make $(LFT)
-	$(CC) -o $(NAME) $(FLAGS) $(OBJS) $(LINKS) $(INCLUDE)
+	$(CC) $(FLAGS) -c $(SRCS) $(INCLUDE)
+	$(CC) $(LINKS) $(OBJS) -o $(NAME)
 
-$(OBJS): $(SRCS)
-	$(CC) -c $(SRCS) $(FLAGS) $(INCLUDE)
 
 clean:
 	make clean $(LFT)

@@ -47,8 +47,8 @@ typedef struct		s_btree
 {
 	struct s_btree	*left;
 	struct s_btree	*right;
-	struct dirent	*dir;
 	char			*path;
+	char			*d_name;
 }					t_btree;
 
 typedef struct		s_ops
@@ -76,16 +76,15 @@ typedef struct		s_lengths
 	size_t			total;
 }					t_lengths;
 
-void				ft_ls(char *path, t_ops ops, t_bool one_and_only);
-
 t_btree				*create_node(struct dirent	*p_dir, char *path);
-t_btree				*create_listnode(char *path);
+t_btree				*create_arg_node(char *path);
 void				btree_insert(\
 						t_btree **root, t_btree *node,\
 						t_ops ops, int (*cmp)(t_btree *, t_btree *));
 void				btree_apply_infix(\
 						t_btree *root, t_ops ops, t_lengths *maxes,\
 						void (*applyf)(t_btree *, t_ops, t_lengths *));
+void				free_node(t_btree *node);
 void				uproot(t_btree **tree);
 
 t_lengths			*init_max_lengths(void);
@@ -95,12 +94,13 @@ t_btree				*parse_args(char **argv, int argc, t_ops ops);
 t_ops				*init_ops(void);
 void				add_options(char *options, t_ops *ops);
 char				*get_d_name(char *path);
-struct stat			get_stat(char *path, char *name);
+struct stat			get_lstat(char *path);
 t_lengths			*get_max_lengths(t_btree *list, t_ops ops);
 
 int					is_dir(char *path);
 t_btree				*scan_directory(char *path, t_ops ops, t_lengths *maxes);
 
+void				print_contents(char *path, t_ops ops, t_bool one_and_only);
 void				print_file_permissions(struct stat f_stat, t_bool color);
 void				print_file_size(\
 						struct stat f_stat, t_lengths maxes, t_bool color);

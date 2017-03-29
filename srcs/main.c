@@ -20,20 +20,16 @@ static void		print_path(char *path)
 
 static void		recurse(t_btree *node, t_ops ops, t_lengths *empty)
 {
-	char	*full_path;
-
-	full_path = ft_strjoin(node->path, node->dir->d_name);
-	if (ft_strcmp(node->dir->d_name, ".") && 	\
-			ft_strcmp(node->dir->d_name, "..") &&
-			is_dir(full_path) && !empty)
+	if (ft_strcmp(node->d_name, ".") && 	\
+			ft_strcmp(node->d_name, "..") &&
+			is_dir(node->path) && !empty)
 	{
 		write(1, "\n", 1);
-		ft_ls(full_path, ops, FALSE);
+		print_contents(node->path, ops, FALSE);
 	}
-	ft_strdel(&full_path);
 }
 
-static void		call_ls(t_btree *node, t_ops ops, t_lengths *empty)
+static void		display_file(t_btree *node, t_ops ops, t_lengths *empty)
 {
 	static int	first_func_call;
 	t_lengths	*maxes;
@@ -44,13 +40,13 @@ static void		call_ls(t_btree *node, t_ops ops, t_lengths *empty)
 			write(1, "\n", 1);
 		if (ops.multiple_files || empty)
 			print_path(node->path);
-		ft_ls(node->path, ops, TRUE);
+		print_contents(node->path, ops, TRUE);
 	}
 	else if (ops.l || ops.g)
 	{
 		maxes = get_max_lengths(node, ops);
 		print_long(node->path, ops, *maxes);
-		pad_str(node->path, 0, (ops.color ? BLU : (void *)0));
+		ft_padstr(node->path, 0, (ops.color ? BLU : (void *)0));
 		write(1, "\n", 1);
 		ft_bzero(maxes, sizeof(t_lengths));
 		free(maxes);
@@ -63,7 +59,7 @@ static void		call_ls(t_btree *node, t_ops ops, t_lengths *empty)
 	first_func_call = 424242;
 }
 
-void			ft_ls(char *path, t_ops ops, t_bool one_and_only)
+void			print_contents(char *path, t_ops ops, t_bool one_and_only)
 {
 	t_btree			*tree;
 	t_lengths		*maxes;
@@ -101,11 +97,11 @@ int				main(int argc, char **argv)
 	if (i < argc)
 		args = parse_args(&(argv[i]), argc - i, *ops);
 	else
-		ft_ls(".", *ops, TRUE);
+		print_contents(".", *ops, TRUE);
 	ops->multiple_files = (argc - i > 1);
 	if (args)
 	{
-		btree_apply_infix(args, *ops, (void *)0, &call_ls);
+		btree_apply_infix(args, *ops, (void *)0, &display_file);
 		uproot(&args);
 	}
 	ft_bzero(ops, sizeof(t_ops));

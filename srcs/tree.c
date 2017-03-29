@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-t_btree		*create_listnode(char *path)
+t_btree		*create_arg_node(char *path)
 {
 	t_btree	*ret;
 
@@ -20,30 +20,31 @@ t_btree		*create_listnode(char *path)
 	if (ret)
 	{
 		ret->path = ft_strdup(path);
-		ret->dir = NULL;
 		ret->left = NULL;
 		ret->right = NULL;
 	}
 	return (ret);
 }
 
-t_btree		*create_node(struct dirent	*p_dir, char *path)
+t_btree		*create_node(struct dirent *p_dir, char *path)
 {
 	t_btree	*ret;
+	int		path_len;
 
-	ret = (t_btree *)malloc(sizeof(t_btree));
-	if (ret)
+	if ((ret = (t_btree *)malloc(sizeof(t_btree))))
 	{
-		if (path)
-		{
-			if (path[ft_strlen(path) - 1] == '/')
-				ret->path = ft_strdup(path);
-			else
-				ret->path = ft_strjoin(path, "/");
-		}
-		ret->dir = (struct dirent *)malloc(sizeof(struct dirent));
-		if (ret->dir)
-			ft_memcpy(ret->dir, p_dir, sizeof(struct dirent));
+		path_len = ft_strlen(path) + ft_strlen(p_dir->d_name);
+		path_len += (path[0] != '.' && path[0] != '/' ? 2 : 0);
+		if (path[ft_strlen(path) - 1] != '/')
+			path_len += 1;
+		ret->path = ft_strnew(path_len);
+		if (path[0] != '.' && path[0] != '/')
+			ft_strcpy(ret->path, "./");
+		ft_strcat(ret->path, path);
+		if (path[ft_strlen(path) - 1] != '/')
+			ft_strcat(ret->path, "/");
+		ret->d_name = ft_strchr(ret->path, '\0');
+		ft_strcat(ret->path, p_dir->d_name);
 		ret->left = NULL;
 		ret->right = NULL;
 	}
@@ -57,12 +58,10 @@ static int	compare(\
 
 	if (ops.f)
 		return (0);
-	if ((ret = ((ops.r ? -1 : 1) * cmp(n1, n2))))
+	if ((ret = ((ops.r ? -1 : 1) * cmp(n1, n2))) != 0)
 		return (ret);
-	if (n1->dir && n2->dir)
-		ret = (ops.r ? -1 : 1) * ft_strcmp(n1->dir->d_name, n2->dir->d_name);
-	else
-		ret = (ops.r ? -1 : 1) * ft_strcmp(n1->path, n2->path);
+	ret = (ops.r ? -1 : 1);
+	ret *= ft_strcmp(n1->d_name, n2->d_name);
 	return (ret);
 }
 
