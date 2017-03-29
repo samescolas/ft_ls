@@ -35,9 +35,10 @@ void			add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes)
 	struct stat		f_stat;
 	struct passwd	*pwd;
 	struct group	*grp;
-	char			*path;
 	size_t			val;
 
+	if (ops.one)
+		write(1, "", 1);
 	f_stat = get_stat(node->path, (node->dir ? node->dir->d_name : ""));
 	if (S_ISBLK(f_stat.st_mode) || S_ISCHR(f_stat.st_mode))
 		if ((val = ft_numlen(major(f_stat.st_rdev))) > maxes->major)

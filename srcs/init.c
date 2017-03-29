@@ -26,9 +26,11 @@ static t_btree	*load_error_message(t_btree *node, t_ops ops)
 
 static void		print_node(t_btree *node, t_ops ops, t_lengths *empty)
 {
-	write(2, "ft_ls: ", 7);
-	write(2, node->path, ft_strlen(node->path));
-	write(2, ": No such file or directory\n", 28);
+	if (empty)
+		empty = (void *)0;
+	ft_padstr("ft_ls: ", 0, ops.color ? RED : (void *)0);
+	ft_padstr(node->path, 0, ops.color ? RED : (void *)0);
+	ft_padstr(": No such file or directory\n", 0, ops.color ? RED : (void *)0);
 }
 
 static void		print_error_messages(t_ops ops)

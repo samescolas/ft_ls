@@ -76,8 +76,6 @@ static void	print_node(t_btree *node, t_ops ops, t_lengths *maxes)
 
 void		print_tree(t_btree *tree, t_ops ops, t_lengths maxes)
 {
-	char		*full_path;
-
 	if (!tree)
 		return ;
 	if (ops.l || ops.g)

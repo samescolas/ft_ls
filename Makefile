@@ -10,6 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
+CC = gcc
+
+FLAGS = -Wall -Werror -Wextra
+
 NAME = ft_ls
 
 SRCS =							\
@@ -32,21 +36,23 @@ LINKS = -L libft -lft
 
 INCLUDE = -Iincludes
 
+LFT = -C libft
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	make -C libft
-	gcc -o $(NAME) $(OBJS) $(LINKS) $(INCLUDE)
+	make $(LFT)
+	$(CC) -o $(NAME) $(FLAGS) $(OBJS) $(LINKS) $(INCLUDE)
 
 $(OBJS): $(SRCS)
-	gcc -c $(SRCS) $(INCLUDE)
+	$(CC) -c $(SRCS) $(FLAGS) $(INCLUDE)
 
 clean:
-	make clean -C libft
+	make clean $(LFT)
 	rm -f *\.o
 
 fclean: clean
-	make fclean -C libft
+	make fclean $(LFT)
 	rm -f $(NAME)
 
 re: fclean all

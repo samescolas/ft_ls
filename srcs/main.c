@@ -25,7 +25,7 @@ static void		recurse(t_btree *node, t_ops ops, t_lengths *empty)
 	full_path = ft_strjoin(node->path, node->dir->d_name);
 	if (ft_strcmp(node->dir->d_name, ".") && 	\
 			ft_strcmp(node->dir->d_name, "..") &&
-			is_dir(full_path))
+			is_dir(full_path) && !empty)
 	{
 		write(1, "\n", 1);
 		ft_ls(full_path, ops, FALSE);
@@ -42,7 +42,7 @@ static void		call_ls(t_btree *node, t_ops ops, t_lengths *empty)
 	{
 		if (ops.multiple_files && first_func_call== 424242)
 			write(1, "\n", 1);
-		if (ops.multiple_files)
+		if (ops.multiple_files || empty)
 			print_path(node->path);
 		ft_ls(node->path, ops, TRUE);
 	}

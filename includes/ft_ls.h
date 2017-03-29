@@ -28,19 +28,14 @@
 
 # define DEF "\x1B[0m"
 # define RED "\x1B[31m"
-# define GRN "\x1B[32m"
-# define YLW "\x1B[33m"
 # define BLU "\x1B[34m"
 # define MAG "\x1B[35m"
 # define CY1 "\x1B[36m"
 # define CY2 "\x1B[37m"
+# define CY3 "\x1B[96m"
 # define BK2 "\x1B[90m"
-# define RD2 "\x1B[91m"
-# define GR2 "\x1B[92m"
-# define YL2 "\x1B[93m"
 # define BL2 "\x1B[94m"
 # define MG2 "\x1B[95m"
-# define CY3 "\x1B[96m"
 
 typedef enum
 {

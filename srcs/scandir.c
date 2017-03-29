@@ -12,21 +12,14 @@
 
 #include "ft_ls.h"
 
-static void	print_error(char *path)
+static void	print_error(char *path, t_bool color)
 {
-	write(2, "ft_ls: ", 7);
-	write(2, path, ft_strlen(path));
-	write(2, ": Permission denied\n", 20);
+	ft_padstr("ft_ls: ", 0, color ? RED : (void *)0);
+	ft_padstr(path, 0, color ? RED : (void *)0);
+	ft_padstr(": Permission denied\n", 0, color ? RED : (void *)0);
 }
 
-char		*get_d_name(char *path)
-{
-	char	*next;
-
-	return ((next = ft_strchr(path, '/')) ? get_d_name(next + 1) : path);
-}
-
-static DIR	*get_dir(char *path)
+static DIR	*get_dir(char *path, t_bool color)
 {
 	DIR		*ret;
 	char	*full_path;
@@ -40,10 +33,26 @@ static DIR	*get_dir(char *path)
 		ret = opendir(full_path);
 	}
 	if (!ret && is_dir(path))
-		print_error(get_d_name(path));
+		print_error(get_d_name(path), color);
 	if (full_path != (void *)0)
 		ft_strdel(&full_path);
 	return (ret);
+}
+
+char		*get_d_name(char *path)
+{
+	char	*next;
+
+	return ((next = ft_strchr(path, '/')) ? get_d_name(next + 1) : path);
+}
+
+int			is_dir(char *path)
+{
+	struct stat f_stat;
+
+	if (stat(path, &f_stat) < 0)
+		return (0);
+	return (S_ISDIR(f_stat.st_mode));
 }
 
 t_btree		*scan_directory(char *path, t_ops ops, t_lengths *maxes)
@@ -54,7 +63,7 @@ t_btree		*scan_directory(char *path, t_ops ops, t_lengths *maxes)
 	t_btree			*node;
 
 	tree = (void *)0;
-	if (!(dir = get_dir(path)))
+	if (!(dir = get_dir(path, ops.color)))
 		return (tree);
 	while ((dp = readdir(dir)) != NULL)
 	{
@@ -68,13 +77,4 @@ t_btree		*scan_directory(char *path, t_ops ops, t_lengths *maxes)
 	}
 	closedir(dir);
 	return (tree);
-}
-
-int			is_dir(char *path)
-{
-	struct stat f_stat;
-
-	if (stat(path, &f_stat) < 0)
-		return (0);
-	return (S_ISDIR(f_stat.st_mode));
 }
