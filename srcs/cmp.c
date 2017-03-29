@@ -53,14 +53,14 @@ int			cmp_args_f(t_btree *f1, t_btree *f2)
 	if (is_dir(f1->path))
 	{
 		if (is_dir(f2->path))
-			return (ft_strcmp(f1->d_name, f2->d_name));
+			return (ft_strcmp(f1->path, f2->path));
 		else
 			return (1);
 	}
 	else
 	{
 		if (is_dir(f2->path))
-			return (ft_strcmp(f1->d_name, f2->d_name));
+			return (ft_strcmp(f1->path, f2->path));
 		else
 			return (-1);
 	}

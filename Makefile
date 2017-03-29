@@ -28,6 +28,7 @@ SRCS =							\
 	   srcs/tree.c				\
 	   srcs/tree2.c				\
 	   srcs/init.c				\
+	   srcs/term_info.c			\
 
 
 OBJS = $(subst srcs/,,$(SRCS:.c=.o))

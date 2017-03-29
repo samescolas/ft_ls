@@ -20,6 +20,7 @@ t_btree		*create_arg_node(char *path)
 	if (ret)
 	{
 		ret->path = ft_strdup(path);
+		ret->d_name = ret->path;
 		ret->left = NULL;
 		ret->right = NULL;
 	}

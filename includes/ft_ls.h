@@ -76,6 +76,8 @@ typedef struct		s_lengths
 	size_t			total;
 }					t_lengths;
 
+int					get_term_width(void);
+
 t_btree				*create_node(struct dirent	*p_dir, char *path);
 t_btree				*create_arg_node(char *path);
 void				btree_insert(\
