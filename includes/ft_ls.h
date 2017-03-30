@@ -76,8 +76,6 @@ typedef struct		s_lengths
 	size_t			total;
 }					t_lengths;
 
-int					get_term_width(void);
-
 t_btree				*create_node(struct dirent	*p_dir, char *path);
 t_btree				*create_arg_node(char *path);
 void				btree_insert(\
@@ -102,6 +100,7 @@ t_lengths			*get_max_lengths(t_btree *list, t_ops ops);
 int					is_dir(char *path);
 t_btree				*scan_directory(char *path, t_ops ops, t_lengths *maxes);
 
+void				display_file(t_btree *node, t_ops ops, t_lengths *maxes);
 void				print_contents(char *path, t_ops ops, t_bool one_and_only);
 void				print_file_permissions(struct stat f_stat, t_bool color);
 void				print_file_size(\
