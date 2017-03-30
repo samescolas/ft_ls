@@ -32,6 +32,7 @@ clean :
 	rm -f .objs/*\.o$
 
 fclean : clean
+	rm -f $(LIBFT)
 	rm -f $(NAME)
 
 re : fclean all
