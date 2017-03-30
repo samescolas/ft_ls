@@ -21,19 +21,15 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADER)
-	ar rc $@ *.o
+	ar rc $@ *\.o$
 	ranlib $@
 
 $(OBJS): $(SRCS) $(HEADER)
 
 .PHONY: clean fclean re
 
-print: $(SRCS)
-	lpr -p $?
-	touch print
-
 clean:
-	rm -f *.o
+	rm -f *\.o$
 
 fclean: clean
 	rm -f $(NAME)
