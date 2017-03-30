@@ -1,58 +1,36 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sescolas <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/03/06 12:39:43 by sescolas          #+#    #+#              #
-#    Updated: 2017/03/24 19:31:09 by sescolas         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+EXE = ft_ls
+
+HEADER = includes/ft_ls.h
+
+SRCS = $(wildcard srcs/*.c$)
+
+OBJS = $(subst srcs/,.objs/,$(SRCS:.c=.o))
+
+LIBFT = libft/libft.a
+
+LIB_DEPS = $(wildcard libft/*.c$)
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra
+LINK = -L libft -lft
 
-NAME = ft_ls
+all : $(EXE)
 
-SRCS =							\
-	   srcs/main.c				\
-	   srcs/options.c			\
-	   srcs/scandir.c			\
-	   srcs/print.c				\
-	   srcs/cmp.c				\
-	   srcs/long.c				\
-	   srcs/long2.c				\
-	   srcs/formatting.c		\
-	   srcs/tree.c				\
-	   srcs/tree2.c				\
-	   srcs/init.c				\
-	   srcs/term_info.c			\
+$(EXE) : $(OBJS) $(HEADER)
+	$(CC) .objs/*.o $(LINK) -o $(EXE)
 
+.objs/%.o : srcs/%.c $(LIBFT)
+	$(CC) -Iincludes -c -o $@ $<
 
-OBJS = $(subst srcs/,,$(SRCS:.c=.o))
+$(LIBFT) : $(LIB_DEPS)
+	make -C libft
 
-LINKS = -Llibft -lft
+.PHONY : clean fclean re
 
-INCLUDE = -Iincludes
+clean :
+	rm -f .objs/*.o$
 
-LFT = -C libft
+fclean : clean
+	rm -f $(EXE)
 
-all: $(NAME)
-
-$(NAME):
-	make $(LFT)
-	$(CC) $(FLAGS) -c $(SRCS) $(INCLUDE)
-	$(CC) $(LINKS) $(OBJS) -o $(NAME)
-
-
-clean:
-	make clean $(LFT)
-	rm -f *\.o
-
-fclean: clean
-	make fclean $(LFT)
-	rm -f $(NAME)
-
-re: fclean all
+re : fclean all
