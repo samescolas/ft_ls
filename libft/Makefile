@@ -18,6 +18,8 @@ SRCS = 	$(wildcard *.c)
 
 OBJS = $(SRCS:.c=.o)
 
+CFLAGS = -Wall -Wextra -Werror
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADER)

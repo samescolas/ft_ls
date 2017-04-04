@@ -16,7 +16,7 @@ static void	print_error_message(char option, t_ops *ops)
 {
 	write(2, "ft_ls: illegal option -- ", 25);
 	write(2, &option, 1);
-	write(2, "\nusage: ft_ls [-RGafglrt1] [file ...]\n", 38);
+	write(2, "\nusage: ft_ls [-GRafglrt1] [file ...]\n", 38);
 	ft_bzero(ops, sizeof(t_ops));
 	free(ops);
 	exit(1);
