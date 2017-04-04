@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-t_lengths	*init_max_lengths(void)
+t_lengths		*init_max_lengths(void)
 {
 	t_lengths	*ret;
 
@@ -59,7 +59,7 @@ void			add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes)
 		maxes->f_size = val;
 }
 
-t_lengths			*get_max_lengths(t_btree *tree, t_ops ops)
+t_lengths		*get_max_lengths(t_btree *tree, t_ops ops)
 {
 	t_lengths		*maxes;
 

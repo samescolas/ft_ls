@@ -43,11 +43,6 @@ int				main(int argc, char **argv)
 		maxes = get_max_lengths(args, *ops);
 		btree_apply_infix(args, *ops, maxes, &display_file);
 		cleanup(args, maxes);
-		/*
-		uproot(&args);
-		ft_bzero(maxes, sizeof(*maxes));
-		free(maxes);
-		*/
 	}
 	ft_bzero(ops, sizeof(t_ops));
 	free(ops);

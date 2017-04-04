@@ -29,13 +29,13 @@ static void		recurse(t_btree *node, t_ops ops, t_lengths *empty)
 	}
 }
 
-void		display_file(t_btree *node, t_ops ops, t_lengths *maxes)
+void			display_file(t_btree *node, t_ops ops, t_lengths *maxes)
 {
 	static int	first_func_call;
 
 	if (is_dir(node->path))
 	{
-		if (ops.multiple_files && first_func_call== 424242)
+		if (ops.multiple_files && first_func_call == 424242)
 			write(1, "\n", 1);
 		if (ops.multiple_files)
 			print_path(node->path);

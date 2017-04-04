@@ -21,7 +21,7 @@ static void	btree_apply_suffix(t_btree *tree, void (*applyf)(t_btree *))
 	applyf(tree);
 }
 
-void	free_node(t_btree *node)
+void		free_node(t_btree *node)
 {
 	node->left = (void *)0;
 	node->right = (void *)0;
@@ -30,7 +30,7 @@ void	free_node(t_btree *node)
 	node = (void *)0;
 }
 
-void	uproot(t_btree **tree)
+void		uproot(t_btree **tree)
 {
 	btree_apply_suffix(*tree, &free_node);
 	*tree = (void *)0;
