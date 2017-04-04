@@ -31,7 +31,7 @@ int				main(int argc, char **argv)
 	ops = init_ops();
 	maxes = (void *)0;
 	i = 0;
-	while (++i < argc && argv[i][0] == '-' && argv[i][1])
+	while (++i < argc && argv[i][0] == '-'&& argv[i][1])
 		add_options(argv[i], ops);
 	if (i < argc)
 		args = parse_args(&(argv[i]), argc - i, *ops);

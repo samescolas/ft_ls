@@ -75,5 +75,11 @@ void		add_options(char *options, t_ops *ops)
 	if (!*options || *options++ != '-')
 		return ;
 	while (*options)
+	{
+		if (*options == '-' && !*(options + 1))
+			break ;
+		else if (*options == '-')
+			print_error_message(*options, ops);
 		add_option(*options++, ops);
+	}
 }
