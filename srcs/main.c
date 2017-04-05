@@ -20,6 +20,14 @@ static void		cleanup(t_btree *tree, t_lengths *maxes)
 	maxes = (void *)0;
 }
 
+static void		curr_dir(t_ops ops)
+{
+	if (load_error_message((void *)0, ops))
+		print_error_messages(ops);
+	else
+		print_contents(".", ops, TRUE);
+}
+
 int				main(int argc, char **argv)
 {
 	t_btree		*args;
@@ -31,12 +39,12 @@ int				main(int argc, char **argv)
 	ops = init_ops();
 	maxes = (void *)0;
 	i = 0;
-	while (++i < argc && argv[i][0] == '-'&& argv[i][1])
+	while (++i < argc && argv[i][0] == '-' && argv[i][1])
 		add_options(argv[i], ops);
 	if (i < argc)
 		args = parse_args(&(argv[i]), argc - i, *ops);
 	else
-		print_contents(".", *ops, TRUE);
+		curr_dir(*ops);
 	ops->multiple_files = (argc - i > 1);
 	if (args)
 	{

@@ -90,6 +90,9 @@ void				uproot(t_btree **tree);
 t_lengths			*init_max_lengths(void);
 void				add_to_maxes(t_btree *node, t_ops ops, t_lengths *maxes);
 
+t_btree				*load_error_message(t_btree *node, t_ops ops);
+void				print_error_messages(t_ops ops);
+
 t_btree				*parse_args(char **argv, int argc, t_ops ops);
 t_ops				*init_ops(void);
 void				add_options(char *options, t_ops *ops);

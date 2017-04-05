@@ -72,12 +72,22 @@ static void	add_option(char op, t_ops *ops)
 
 void		add_options(char *options, t_ops *ops)
 {
+	static t_bool	end_of_options;
+
+	if (end_of_options)
+	{
+		load_error_message(create_arg_node(options), *ops);
+		return ;
+	}
 	if (!*options || *options++ != '-')
 		return ;
 	while (*options)
 	{
-		if (*options == '-' && !*(options + 1))
-			break ;
+		if (ft_strcmp(options - 1, "--") == 0)
+		{
+			end_of_options = TRUE;
+			return ;
+		}
 		else if (*options == '-')
 			print_error_message(*options, ops);
 		add_option(*options++, ops);

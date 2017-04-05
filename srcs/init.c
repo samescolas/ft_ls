@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-static t_btree	*load_error_message(t_btree *node, t_ops ops)
+t_btree			*load_error_message(t_btree *node, t_ops ops)
 {
 	static t_btree	*error_tree;
 
@@ -33,7 +33,7 @@ static void		print_node(t_btree *node, t_ops ops, t_lengths *empty)
 	ft_padstr(": No such file or directory\n", 0, ops.color ? RED : (void *)0);
 }
 
-static void		print_error_messages(t_ops ops)
+void			print_error_messages(t_ops ops)
 {
 	t_btree	*tmp;
 
