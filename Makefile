@@ -17,7 +17,7 @@ LINK = -L libft -lft
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(HEADER)
-	$(CC) .objs/*.o $(LINK) -o $(NAME)
+	$(CC) .objs/*.o $(LINK) -o $@
 
 .objs/%.o : srcs/%.c $(LIBFT)
 	$(CC) -I includes -c -o $@ $<
